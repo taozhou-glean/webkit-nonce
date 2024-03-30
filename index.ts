@@ -7,6 +7,7 @@ const server = Bun.serve({
       return Response.json({ success: true, data });
     }
     if (path === "/csp-no-violation") {
+      // These header will not generate any violation report
       return new Response(Bun.file("./index.html"), {
         headers: {
           "Content-Security-Policy": "script-src 'nonce-abc';",
@@ -15,6 +16,8 @@ const server = Bun.serve({
         },
       });
     }
+
+    // These header will generate a violation report
     return new Response(Bun.file("./index.html"), {
       headers: {
         "Content-Security-Policy":
